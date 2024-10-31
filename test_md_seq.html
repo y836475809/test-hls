@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>テストページ</title>
+    <style type="text/css">
+        #mySvgId {
+          height: 100vh;
+          width: 100hv;
+        }
+        #graphDiv {
+          height: 100vh;
+          width: 100hv;
+        }
+      </style>
+  </head>
+
+  <!-- <script src="svg-pan-zoom.min.js"></script> -->
+  <script src="mermaid.min.js"></script>
+  <script type="module">
+    // https://blog.a-1.dev/post/2019-06-16-mermaid/
+    // https://unpkg.com/browse/mermaid@11.4.0/dist/
+    mermaid.initialize({ startOnLoad: true, 
+        init: {sequence: {useMaxWidth: false} }
+    });
+    const drawDiagram = async function () {
+        const element = document.querySelector('#graphDiv');
+        const graphDefinition = `
+        sequenceDiagram
+        Alice ->> Bob: Hello Bob, how are you?
+        Bob-->>John: How about you John?
+        Bob--x Alice: I am good thanks!
+        Bob-x John: I am good thanks!
+        Note right of John: Bob thinks a long<br/>long time, so long<br/>that the text does<br/>not fit on a row.
+
+        Bob-->Alice: Checking with John...
+        Alice->John: Yes... John, how are you?
+
+        Alice ->> Bob: Hello Bob, how are you?
+        Bob-->>John: How about you John?
+        Bob--x Alice: I am good thanks!
+        Bob-x John: I am good thanks!
+        Note right of John: Bob thinks a long<br/>long time, so long<br/>that the text does<br/>not fit on a row.
+
+        Bob-->Alice: Checking with John...
+        Alice->John: Yes... John, how are you?
+        `;
+        // const { svg } = await mermaid.render('mySvgId', graphDefinition);
+        // element.innerHTML = svg.replace(/[ ]*max-width:[ 0-9\.]*px;/i , '');
+        // var panZoomTiger = svgPanZoom('#mySvgId', {
+        //   zoomEnabled: true,
+        //   controlIconsEnabled: true,
+        //   fit: true,
+        //   center: true
+        // })
+      };
+      await drawDiagram();
+  </script>
+  <body>
+    <div id="graphDiv" class="mermaid">
+        %%{init: { 'sequence': {'useMaxWidth':false} } }%%
+        sequenceDiagram
+        Alice ->> Bob: Hello Bob, how are you?
+        Bob-->>John: テストHow about you John?
+        Bob--x Alice: I am good thanks!
+        Bob-x John: I am good thanks!
+        Note right of John: Bob thinks a long<br/>long time, so long<br/>that the text does<br/>not fit on a row.
+
+        Bob-->Alice: Checking with John...
+        Alice->John: Yes... John, how are you?
+
+        Alice ->> Bob: Hello Bob, how are you?
+        Bob-->>John: How about you John?
+        Bob--x Alice: I am good thanks!
+        Bob-x John: I am good thanks!
+        Note right of John: Bob thinks a long<br/>long time, so long<br/>that the text does<br/>not fit on a row.
+
+        Bob-->Alice: Checking with John...
+        Alice->John: Yes... John, how are you?
+</div>
+  </body>
+</html>
