@@ -19,65 +19,72 @@
   <!-- <script src="svg-pan-zoom.min.js"></script> -->
   <script src="mermaid.min.js"></script>
   <script type="module">
-    // https://blog.a-1.dev/post/2019-06-16-mermaid/
-    // https://unpkg.com/browse/mermaid@11.4.0/dist/
-    mermaid.initialize({ startOnLoad: true, 
+    mermaid.initialize({ startOnLoad: false, 
         init: {sequence: {useMaxWidth: false} }
     });
-    const drawDiagram = async function () {
-        const element = document.querySelector('#graphDiv');
-        const graphDefinition = `
-        sequenceDiagram
-        Alice ->> Bob: Hello Bob, how are you?
-        Bob-->>John: How about you John?
-        Bob--x Alice: I am good thanks!
-        Bob-x John: I am good thanks!
-        Note right of John: Bob thinks a long<br/>long time, so long<br/>that the text does<br/>not fit on a row.
+    const aa = `
+%%{init: { 'sequence': {'useMaxWidth':false} } }%%
+    sequenceDiagram
+    Alice ->> Bob: Hello Bob, how are you?
+    Bob-->>John: How about you John?
+    Bob--x Alice: I am good thanks!
+    Bob-x John: I am good thanks!
+    Note right of John: Bob thinks a long<br/>long time, so long<br/>that the text does<br/>not fit on a row.
 
-        Bob-->Alice: Checking with John...
-        Alice->John: Yes... John, how are you?
+    Bob-->Alice: Checking with John...
+    Alice->John: Yes... John, how are you?
 
-        Alice ->> Bob: Hello Bob, how are you?
-        Bob-->>John: How about you John?
-        Bob--x Alice: I am good thanks!
-        Bob-x John: I am good thanks!
-        Note right of John: Bob thinks a long<br/>long time, so long<br/>that the text does<br/>not fit on a row.
+    Alice ->> Bob: Hello Bob, how are you?
+    Bob-->>John: How about you John?
+    Bob--x Alice: I am good thanks!
+    Bob-x John: I am good thanks!
+    Note right of John: Bob thinks a long<br/>long time, so long<br/>that the text does<br/>not fit on a row.
 
-        Bob-->Alice: Checking with John...
-        Alice->John: Yes... John, how are you?
-        `;
-        // const { svg } = await mermaid.render('mySvgId', graphDefinition);
-        // element.innerHTML = svg.replace(/[ ]*max-width:[ 0-9\.]*px;/i , '');
-        // var panZoomTiger = svgPanZoom('#mySvgId', {
-        //   zoomEnabled: true,
-        //   controlIconsEnabled: true,
-        //   fit: true,
-        //   center: true
-        // })
-      };
-      await drawDiagram();
+    Bob-->Alice: Checking with John...
+    Alice->John: Yes... John, how are you?
+    `
+    const p_elm = document.getElementById("graphDiv");
+    await mermaid.init();
+
+    const addElems = [];
+    const elm = document.querySelector("#actor0");
+    const actor_elms = document.querySelectorAll(".actor.actor-top");
+    actor_elms.forEach(element => {
+      const rect = element.getBoundingClientRect();
+      const addElem = document.createElement('div');
+      const actor_name = element.getAttribute("name");
+      addElem.style.setProperty("position", "absolute");
+      addElem.style.setProperty("top", "20px");
+      addElem.style.setProperty("background-color", "red");
+      addElem.innerHTML = `${actor_name}`
+      addElem.setAttribute("title", "aaaa");
+      p_elm.appendChild(addElem);
+      const p_rect = addElem.getBoundingClientRect();
+      const expression = rect.left + rect.width / 2 - p_rect.width / 2;
+      addElem.style.setProperty("left", `${expression}px`);
+      addElems.push(addElem);
+    });
+    
+    setInterval(() => {
+      const rect = actor_elms[0].getBoundingClientRect();
+      const actor_top = rect.top
+      addElems.forEach(element => {
+        element.style.top = `${20 - actor_top}px`;
+        });
+    }, 1000);
+    
   </script>
   <body>
     <div id="graphDiv" class="mermaid">
-        %%{init: { 'sequence': {'useMaxWidth':false} } }%%
-        sequenceDiagram
-        Alice ->> Bob: Hello Bob, how are you?
-        Bob-->>John: テストHow about you John?
-        Bob--x Alice: I am good thanks!
-        Bob-x John: I am good thanks!
-        Note right of John: Bob thinks a long<br/>long time, so long<br/>that the text does<br/>not fit on a row.
-
-        Bob-->Alice: Checking with John...
-        Alice->John: Yes... John, how are you?
-
-        Alice ->> Bob: Hello Bob, how are you?
-        Bob-->>John: How about you John?
-        Bob--x Alice: I am good thanks!
-        Bob-x John: I am good thanks!
-        Note right of John: Bob thinks a long<br/>long time, so long<br/>that the text does<br/>not fit on a row.
-
-        Bob-->Alice: Checking with John...
-        Alice->John: Yes... John, how are you?
-</div>
+      %%{init: { 'sequence': {'useMaxWidth':false} } }%%
+    sequenceDiagram
+    A ->> B: load()
+    B ->> C: read()
+    C ->> A: check()
+    A -->> C: return check()
+    B ->> B: create()
+    C -->> B: return read()
+    B -->> A: return load()
+    </div>
   </body>
 </html>
